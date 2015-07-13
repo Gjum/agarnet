@@ -1,25 +1,31 @@
 #!/bin/bash
 cd js/ &> /dev/null
-ver=`./getver.sh`
 
-unset -v preprev
-unset -v prev
-for file in main_*_raw.js; do
-  [[ $file > $prev ]] && preprev="$prev" && prev="$file"
+ver=`date +%Y-%m-%d_%H.%M.%S`
+sha=`./getmain.sh "$ver"`
+
+unset -v filepreprev
+unset -v fileprev
+for file in main_*_xx_*.js; do
+  if [[ $file > $fileprev ]]; then
+    filepreprev="$fileprev"
+    fileprev="$file"
+  fi
 done
-preprev=`<<<"$preprev" grep -Po '(?<=main_)[^_]*'`
-prev=`<<<"$prev" grep -Po '(?<=main_)[^_]*'`
+verpreprev=`<<<"$filepreprev" grep -Po '(?<=main_)[^_]*'`
+verprev=`<<<"$fileprev" grep -Po '(?<=main_)[^_]*'`
+shapreprev=`<<<"$filepreprev" grep -Po '[^_]*(?=\.js)'`
+shaprev=`<<<"$fileprev" grep -Po '[^_]*(?=\.js)'`
 
-echo "Previous versions were $preprev and $prev"
+echo "PrePrev  $verpreprev $shapreprev"
+echo "Previous $verprev $shaprev"
+echo "Current  $ver $sha"
 
-if [[ $ver == $prev ]]; then
-  echo "Newest version is still $ver"
-  echo "main_${preprev}_xx.js main_${ver}_xx.js"
-  exit 0
+if [[ $sha == $shaprev ]]; then
+  echo "Same SHA"
+  echo "$filepreprev $fileprev"
+else
+  echo "New SHA"
+  echo "$fileprev main_${ver}_xx_${sha}.js"
 fi
-
-echo "Downloading version $ver"
-./getmain.sh "$ver" 2>&1
-
-echo "main_${prev}_xx.js main_${ver}_xx.js"
 
