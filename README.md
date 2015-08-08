@@ -1,6 +1,7 @@
 agarnet
 =======
-
+[![Latest PyPI version](https://img.shields.io/pypi/v/agarnet.svg?style=flat)](https://pypi.python.org/pypi/agarnet/)
+[![Number of PyPI downloads](https://img.shields.io/pypi/dm/agarnet.svg?style=flat)](https://pypi.python.org/pypi/agarnet/)
 [![Join the chat at https://gitter.im/Gjum/gagar](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Gjum/gagar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [agar.io](http://agar.io/) client and connection toolkit
