@@ -11,7 +11,7 @@ setup(name='agarnet',
       url='https://github.com/Gjum/agarnet',
       license='GPLv3',
       classifiers=[
-          'Development Status :: 5 - Production/Stable',
+          'Development Status :: 4 - Beta',
           'Environment :: Console',
           'Intended Audience :: Developers',
           'Intended Audience :: Education',
