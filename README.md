@@ -8,8 +8,15 @@ agarnet
 
 Installation
 ------------
+The client can be installed directly from [PyPI](https://pypi.python.org/pypi?name=agarnet&:action=display) with
 
     pip install agarnet
+
+or, if you want to get/edit the source code,
+
+    git clone git@github.com:Gjum/agarnet.git
+    cd agarnet/
+    python3 setup.py install
 
 About
 -----
@@ -21,7 +28,7 @@ I reverse-engineered the protocol implementation by looking at the (barely) obfu
 Although it would be much easier now to write a client, because [there is a wiki](http://agar.gcommer.com/) describing the whole protocol and most game mechanics.
 
 If you have any game-related questions, feel free to ask in the [#agariomods IRC channel on the Rizon network](http://irc.lc/rizon/agariomods/CodeBlob@@@).
-For questions about this client specifically, [open an issue](https://github.com/Gjum/agarnet/issues/new) or write me an email: [code.gjum@gmail.com](mailto:code.gjum@gmail.com)
+For questions about this client specifically, [open an issue](https://github.com/Gjum/agarnet/issues/new) or write me an email: [code.gjum+agarnet@gmail.com](mailto:code.gjum+agarnet@gmail.com)
 
 Disclaimer
 ----------
