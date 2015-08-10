@@ -271,8 +271,8 @@ class Client(object):
 
     def parse_debug_line(self, buf):
         # TODO debug line packet is untested
-        x = buf.pop_float64()
-        y = buf.pop_float64()
+        x = buf.pop_int16()
+        y = buf.pop_int16()
         self.subscriber.on_debug_line(x=x, y=y)
 
     def send_struct(self, fmt, *data):
@@ -294,7 +294,7 @@ class Client(object):
         self.send_struct('<B%iH' % len(nick), 0, *map(ord, nick))
 
     def send_target(self, x, y, cid=0):
-        self.send_struct('<BhhI', 16, int(x), int(y), cid)
+        self.send_struct('<BddI', 16, x, y, cid)
 
     def send_spectate(self):
         self.send_struct('<B', 1)
