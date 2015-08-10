@@ -205,7 +205,7 @@ class Client(object):
 
     def parse_leaderboard_names(self, buf):
         # sent every 500ms
-        # only in "free for all" mode
+        # not in "teams" mode
         n = buf.pop_uint32()
         leaderboard_names = []
         for i in range(n):
@@ -217,7 +217,7 @@ class Client(object):
 
     def parse_leaderboard_groups(self, buf):
         # sent every 500ms
-        # only in group mode
+        # only in "teams" mode
         n = buf.pop_uint32()
         leaderboard_groups = []
         for i in range(n):
@@ -274,6 +274,13 @@ class Client(object):
         x = buf.pop_int16()
         y = buf.pop_int16()
         self.subscriber.on_debug_line(x=x, y=y)
+
+    # format reminder
+    # B Uint8
+    # H Uint16
+    # I Uint32
+    # f Float32
+    # d Float64
 
     def send_struct(self, fmt, *data):
         if self.is_connected:
