@@ -276,11 +276,11 @@ class Client(object):
         self.subscriber.on_debug_line(x=x, y=y)
 
     # format reminder
-    # B Uint8
-    # H Uint16
-    # I Uint32
-    # f Float32
-    # d Float64
+    # b int8
+    # h int16
+    # i int32
+    # f float32
+    # d float64
 
     def send_struct(self, fmt, *data):
         if self.is_connected:
@@ -301,7 +301,7 @@ class Client(object):
         self.send_struct('<B%iH' % len(nick), 0, *map(ord, nick))
 
     def send_target(self, x, y, cid=0):
-        self.send_struct('<BddI', 16, x, y, cid)
+        self.send_struct('<BiiI', 16, int(x), int(y), cid)
 
     def send_spectate(self):
         self.send_struct('<B', 1)
