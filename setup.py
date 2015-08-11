@@ -6,7 +6,7 @@ except ImportError:
 setup(name='agarnet',
       packages=['agarnet'],
       py_modules=['agarnet'],
-      version='0.1.4',
+      version='0.1.5',
       description='agar.io client and connection toolkit',
       install_requires=['websocket-client>=0.32.0'],
       author='Gjum',
