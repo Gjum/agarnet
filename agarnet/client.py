@@ -20,11 +20,12 @@ packet_s2c = {
 packet_c2s = {
       0: 'respawn',
       1: 'spectate',
-     16: 'mouse',
+     16: 'target',
      17: 'split',
      18: 'shoot',
      20: 'explode',
      80: 'token',
+     81: 'facebook',
     254: 'handshake1',
     255: 'handshake2',
 }
