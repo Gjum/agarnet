@@ -60,7 +60,7 @@ class Client(object):
         self.player.world = world
 
     @property
-    def is_connected(self):
+    def connected(self):
         return self.ws.connected
 
     def connect(self, address, token=None):
@@ -71,7 +71,7 @@ class Client(object):
         :param token: unique token, required by official servers, acquired through find_server()
         :return: True if connected, False if not
         """
-        if self.is_connected:
+        if self.connected:
             self.subscriber.on_connect_error('Already connected to "%s"' % self.address)
             return False
 
@@ -80,13 +80,13 @@ class Client(object):
 
         self.ws.settimeout(1)
         self.ws.connect('ws://%s' % self.address, origin='http://agar.io')
-        if not self.is_connected:
+        if not self.connected:
             self.subscriber.on_connect_error('Failed to connect to "%s"' % self.address)
             return False
 
         self.subscriber.on_sock_open()
         # allow handshake canceling
-        if not self.is_connected:
+        if not self.connected:
             self.subscriber.on_connect_error('Disconnected before sending handshake')
             return False
 
@@ -108,7 +108,7 @@ class Client(object):
     def listen(self):
         """Set up a quick connection. Returns on disconnect."""
         import select
-        while self.is_connected:
+        while self.connected:
             r, w, e = select.select((self.ws.sock, ), (), ())
             if r:
                 self.on_message()
@@ -284,7 +284,7 @@ class Client(object):
     # d float64
 
     def send_struct(self, fmt, *data):
-        if self.is_connected:
+        if self.connected:
             self.ws.send(struct.pack(fmt, *data))
 
     def send_handshake(self):
