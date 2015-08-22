@@ -20,7 +20,7 @@ def find_server(region='EU-London', mode=None):
     opener.addheaders = moz_headers
     data = '%s\n%s' % (region, handshake_version)
     return opener.open('http://m.agar.io/', data=data.encode()) \
-        .read().decode().split('\n')
+        .read().decode().split('\n')[0:2]
 
 
 def get_party_address(party_token):
@@ -28,6 +28,6 @@ def get_party_address(party_token):
     opener.addheaders = moz_headers
     try:
         return opener.open('http://m.agar.io/getToken', data=party_token.encode()) \
-            .read().decode().split('\n')
+            .read().decode().split('\n')[0]
     except urllib.error.HTTPError:
         raise ValueError('Invalid token "%s" (maybe timed out after 10min?)' % party_token)

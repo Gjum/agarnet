@@ -1,0 +1,26 @@
+sudo: false
+
+language: python
+
+python:
+  - "3.3"
+
+env:
+  - TOX_ENV=py33
+  - TOX_ENV=py34
+  - TOX_ENV=flake8
+# TODO add py27
+
+install:
+  - "pip install tox"
+
+script:
+  - "tox -e $TOX_ENV"
+
+after_success:
+  - "if [ `echo $TOX_ENV | grep -v flake8` ]; then pip install coveralls; coveralls; fi"
+
+# whitelist
+branches:
+  only:
+    - master
