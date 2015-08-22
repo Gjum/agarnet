@@ -14,7 +14,8 @@ def gcommer_claim(address=None):
     """
     if not address:
         # get token for any world
-        # this is only useful for testing, as m.agar.io can also be used for this
+        # this is only useful for testing,
+        # because that is exactly what m.agar.io does
         url = 'http://at.gcommer.com/status'
         text = urllib.request.urlopen(url).read().decode()
         j = json.loads(text)
@@ -40,7 +41,10 @@ def gcommer_donate(address, token, *_):
 
 
 def gcommer_donate_threaded(interval=5, region='EU-London', mode=None):
-    """Run a daemon thread that requests and donates a token every `interval` seconds."""
+    """
+    Run a daemon thread that requests and
+    donates a token every `interval` seconds.
+    """
     def donate_thread():
         while 1:
             gcommer_donate(*find_server(region, mode))

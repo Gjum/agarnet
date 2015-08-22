@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 import struct
 
+
 class BufferUnderflowError(struct.error):
     def __init__(self, fmt, buf):
         self.fmt = fmt
         self.buf = buf
         self.args = ('Buffer too short: wanted %i %s, got %i %s'
                      % (struct.calcsize(fmt), fmt, len(buf), buf),)
+
 
 class BufferStruct(object):
     def __init__(self, message):
@@ -74,7 +76,8 @@ class BufferStruct(object):
         l_name = []
         while 1:
             c = self.pop_uint16()
-            if c == 0: break
+            if c == 0:
+                break
             l_name.append(chr(c))
         return ''.join(l_name)
 
@@ -82,6 +85,7 @@ class BufferStruct(object):
         l_name = []
         while 1:
             c = self.pop_uint8()
-            if c == 0: break
+            if c == 0:
+                break
             l_name.append(chr(c))
         return ''.join(l_name)

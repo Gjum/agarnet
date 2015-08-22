@@ -3,8 +3,8 @@ sys.path.insert(0, '/home/gjum/src/agarnet/')
 
 from unittest import TestCase
 
-from agarnet.utils import find_server
 from agarnet.client import Client
+from agarnet.utils import find_server
 
 
 class SubscriberMock(object):

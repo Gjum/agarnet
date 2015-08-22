@@ -2,8 +2,8 @@
 http://doswa.com/2009/07/13/circle-segment-intersectioncollision.html
 Slightly modified by Gjum code.gjum@gmail.com
 """
-
 import math
+
 
 class Vec(object):
     __slots__ = ('x', 'y')

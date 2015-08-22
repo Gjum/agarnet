@@ -8,14 +8,16 @@ special_names = 'poland;usa;china;russia;canada;australia;spain;brazil;germany;u
 
 
 moz_headers = [
-    ('User-Agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0'),
+    ('User-Agent',
+        'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0'),
     ('Origin', 'http://agar.io'),
     ('Referer', 'http://agar.io'),
 ]
 
 
 def find_server(region='EU-London', mode=None):
-    if mode: region = '%s:%s' % (region, mode)
+    if mode:
+        region = '%s:%s' % (region, mode)
     opener = urllib.request.build_opener()
     opener.addheaders = moz_headers
     data = '%s\n%s' % (region, handshake_version)
@@ -30,4 +32,5 @@ def get_party_address(party_token):
         return opener.open('http://m.agar.io/getToken', data=party_token.encode()) \
             .read().decode().split('\n')[0]
     except urllib.error.HTTPError:
-        raise ValueError('Invalid token "%s" (maybe timed out after 10min?)' % party_token)
+        raise ValueError('Invalid token "%s" (maybe timed out after 10min?)'
+                         % party_token)

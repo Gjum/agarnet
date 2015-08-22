@@ -1,4 +1,5 @@
 from collections import defaultdict
+
 from .vec import Vec
 
 
@@ -28,7 +29,7 @@ class Cell(object):
         Returns True if both are owned by the same player.
         """
         return self.name == other.name \
-                and self.color == other.color
+            and self.color == other.color
 
     def __lt__(self, other):
         if self.mass != other.mass:
@@ -84,9 +85,9 @@ class Player(object):
             if self.total_size > 0 else 1.0
 
         if self.own_ids:
-            left   = min(cell.pos.x for cell in self.own_cells)
-            right  = max(cell.pos.x for cell in self.own_cells)
-            top    = min(cell.pos.y for cell in self.own_cells)
+            left = min(cell.pos.x for cell in self.own_cells)
+            right = max(cell.pos.x for cell in self.own_cells)
+            top = min(cell.pos.y for cell in self.own_cells)
             bottom = max(cell.pos.y for cell in self.own_cells)
             self.center = Vec(left + right, top + bottom) / 2
         # else: keep old center

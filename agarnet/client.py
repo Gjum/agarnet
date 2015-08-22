@@ -1,4 +1,5 @@
 import struct
+
 import websocket
 
 from .buffer import BufferStruct, BufferUnderflowError
@@ -18,14 +19,14 @@ packet_s2c = {
 }
 
 packet_c2s = {
-      0: 'respawn',
-      1: 'spectate',
-     16: 'target',
-     17: 'split',
-     18: 'shoot',
-     20: 'explode',
-     80: 'token',
-     81: 'facebook',
+    0: 'respawn',
+    1: 'spectate',
+    16: 'target',
+    17: 'split',
+    18: 'shoot',
+    20: 'explode',
+    80: 'token',
+    81: 'facebook',
     254: 'handshake1',
     255: 'handshake2',
 }
@@ -42,7 +43,8 @@ class Client(object):
 
     def __init__(self, subscriber):
         """
-        :param subscriber: instance of a subclass of Subscriber, i.e. imlements any on_*() methods
+        :param subscriber: instance of a subclass of Subscriber,
+                           i.e. imlements any on_*() methods
         """
         self.subscriber = subscriber
         self.player = Player()
@@ -65,14 +67,17 @@ class Client(object):
 
     def connect(self, address, token=None):
         """
-        Connect the underlying websocket to the address, send a handshake and optionally a token packet.
+        Connect the underlying websocket to the address,
+        send a handshake and optionally a token packet.
 
         :param address: string, `IP:PORT`
-        :param token: unique token, required by official servers, acquired through find_server()
+        :param token: unique token, required by official servers,
+                      acquired through find_server()
         :return: True if connected, False if not
         """
         if self.connected:
-            self.subscriber.on_connect_error('Already connected to "%s"' % self.address)
+            self.subscriber.on_connect_error(
+                'Already connected to "%s"' % self.address)
             return False
 
         self.address, self.token = address, token
@@ -81,13 +86,15 @@ class Client(object):
         self.ws.settimeout(1)
         self.ws.connect('ws://%s' % self.address, origin='http://agar.io')
         if not self.connected:
-            self.subscriber.on_connect_error('Failed to connect to "%s"' % self.address)
+            self.subscriber.on_connect_error(
+                'Failed to connect to "%s"' % self.address)
             return False
 
         self.subscriber.on_sock_open()
         # allow handshake canceling
         if not self.connected:
-            self.subscriber.on_connect_error('Disconnected before sending handshake')
+            self.subscriber.on_connect_error(
+                'Disconnected before sending handshake')
             return False
 
         self.send_handshake()
@@ -170,7 +177,8 @@ class Client(object):
         # create/update cells
         while 1:
             cid = buf.pop_uint32()
-            if cid == 0: break
+            if cid == 0:
+                break
             cx = buf.pop_int32()
             cy = buf.pop_int32()
             csize = buf.pop_int16()
@@ -184,12 +192,12 @@ class Client(object):
             if bitmask & 4:  # TODO skin URL?
                 pass  # skin_url = buf.pop_str8()
             cname = buf.pop_str16()
-            self.subscriber.on_cell_info(cid=cid, x=cx, y=cy,
-                                         size=csize, name=cname, color=color,
-                                         is_virus=is_virus, is_agitated=is_agitated)
-            cells[cid].__init__(cid=cid, x=cx, y=cy,
-                                size=csize, name=cname, color=color,
-                                is_virus=is_virus, is_agitated=is_agitated)
+            self.subscriber.on_cell_info(
+                cid=cid, x=cx, y=cy, size=csize, name=cname, color=color,
+                is_virus=is_virus, is_agitated=is_agitated)
+            cells[cid].__init__(
+                cid=cid, x=cx, y=cy, size=csize, name=cname, color=color,
+                is_virus=is_virus, is_agitated=is_agitated)
 
         # also keep these non-updated cells
         for i in range(buf.pop_uint32()):
@@ -243,7 +251,8 @@ class Client(object):
         top = buf.pop_float64()
         right = buf.pop_float64()
         bottom = buf.pop_float64()
-        self.subscriber.on_world_rect(left=left, top=top, right=right, bottom=bottom)
+        self.subscriber.on_world_rect(
+            left=left, top=top, right=right, bottom=bottom)
         self.player.world.top_left = Vec(top, left)
         self.player.world.bottom_right = Vec(bottom, right)
         self.player.center = self.world.center
@@ -255,13 +264,15 @@ class Client(object):
         scale = buf.pop_float32()
         self.player.center.set(x, y)
         self.player.scale = scale
-        self.subscriber.on_spectate_update(pos=self.player.center, scale=scale)
+        self.subscriber.on_spectate_update(
+            pos=self.player.center, scale=scale)
 
     def parse_experience_info(self, buf):
         level = buf.pop_uint32()
         current_xp = buf.pop_uint32()
         next_xp = buf.pop_uint32()
-        self.subscriber.on_experience_info(level=level, current_xp=current_xp, next_xp=next_xp)
+        self.subscriber.on_experience_info(
+            level=level, current_xp=current_xp, next_xp=next_xp)
 
     def parse_clear_cells(self, buf):
         # TODO clear cells packet is untested
