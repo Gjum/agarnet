@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '/home/gjum/src/agarnet/')
+
 from unittest import TestCase
 
 from agarnet.utils import find_server, get_party_address
