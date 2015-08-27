@@ -5,12 +5,13 @@ from .vec import Vec
 
 class Cell(object):
     def __init__(self, *args, **kwargs):
+        self.pos = Vec()
         self.update(*args, **kwargs)
 
     def update(self, cid=-1, x=0, y=0, size=0, name='',
                color=(1, 0, 1), is_virus=False, is_agitated=False):
         self.cid = cid
-        self.pos = Vec(x, y)
+        self.pos.set(x, y)
         self.size = size
         self.mass = size ** 2 / 100.0
         self.name = getattr(self, 'name', name) or name
@@ -42,14 +43,19 @@ class Cell(object):
 
 class World(object):
     def __init__(self):
-        self.reset()
-
-    def reset(self):
         self.cells = defaultdict(Cell)
         self.leaderboard_names = []
         self.leaderboard_groups = []
         self.top_left = Vec(0, 0)
         self.bottom_right = Vec(0, 0)
+        self.reset()
+
+    def reset(self):
+        self.cells.clear()
+        self.leaderboard_names.clear()
+        self.leaderboard_groups.clear()
+        self.top_left.set(0, 0)
+        self.bottom_right.set(0, 0)
 
     @property
     def center(self):
@@ -77,10 +83,11 @@ class World(object):
 class Player(object):
     def __init__(self):
         self.world = World()
+        self.own_ids = set()
         self.reset()
 
     def reset(self):
-        self.own_ids = set()
+        self.own_ids.clear()
         self.nick = ''
         self.center = self.world.center
         self.cells_changed()
