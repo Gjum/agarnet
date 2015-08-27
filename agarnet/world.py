@@ -4,8 +4,11 @@ from .vec import Vec
 
 
 class Cell(object):
-    def __init__(self, cid=-1, x=0, y=0, size=0, name='',
-                 color=(1, 0, 1), is_virus=False, is_agitated=False):
+    def __init__(self, *args, **kwargs):
+        self.update(*args, **kwargs)
+
+    def update(self, cid=-1, x=0, y=0, size=0, name='',
+               color=(1, 0, 1), is_virus=False, is_agitated=False):
         self.cid = cid
         self.pos = Vec(x, y)
         self.size = size

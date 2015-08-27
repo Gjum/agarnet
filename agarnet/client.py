@@ -195,7 +195,7 @@ class Client(object):
             self.subscriber.on_cell_info(
                 cid=cid, x=cx, y=cy, size=csize, name=cname, color=color,
                 is_virus=is_virus, is_agitated=is_agitated)
-            cells[cid].__init__(
+            cells[cid].update(
                 cid=cid, x=cx, y=cy, size=csize, name=cname, color=color,
                 is_virus=is_virus, is_agitated=is_agitated)
 
