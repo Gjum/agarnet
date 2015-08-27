@@ -102,7 +102,8 @@ class Client(object):
             self.send_token(self.token)
 
         old_nick = self.player.nick
-        self.player = Player()
+        self.player.reset()
+        self.world.reset()
         self.player.nick = old_nick
         return True
 

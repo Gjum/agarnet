@@ -42,6 +42,9 @@ class Cell(object):
 
 class World(object):
     def __init__(self):
+        self.reset()
+
+    def reset(self):
         self.cells = defaultdict(Cell)
         self.leaderboard_names = []
         self.leaderboard_groups = []
@@ -74,12 +77,13 @@ class World(object):
 class Player(object):
     def __init__(self):
         self.world = World()
+        self.reset()
+
+    def reset(self):
         self.own_ids = set()
         self.nick = ''
-        self.scale = 1
         self.center = self.world.center
-        self.total_size = 0
-        self.total_mass = 0
+        self.cells_changed()
 
     def cells_changed(self):
         self.total_size = sum(cell.size for cell in self.own_cells)
