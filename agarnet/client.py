@@ -242,7 +242,7 @@ class Client(object):
             self.player.own_ids.clear()
             self.subscriber.on_respawn()
         # server sends empty name, assumes we set it here
-        self.player.world.cells[cid].name = self.player.nick
+        self.world.cells[cid].name = self.player.nick
         self.player.own_ids.add(cid)
         self.player.cells_changed()
         self.subscriber.on_own_id(cid=cid)
@@ -254,8 +254,8 @@ class Client(object):
         bottom = buf.pop_float64()
         self.subscriber.on_world_rect(
             left=left, top=top, right=right, bottom=bottom)
-        self.player.world.top_left = Vec(top, left)
-        self.player.world.bottom_right = Vec(bottom, right)
+        self.world.top_left = Vec(top, left)
+        self.world.bottom_right = Vec(bottom, right)
         self.player.center = self.world.center
 
     def parse_spectate_update(self, buf):
@@ -278,7 +278,7 @@ class Client(object):
     def parse_clear_cells(self, buf):
         # TODO clear cells packet is untested
         self.subscriber.on_clear_cells()
-        self.player.world.cells.clear()
+        self.world.cells.clear()
         self.player.own_ids.clear()
         self.player.cells_changed()
 
