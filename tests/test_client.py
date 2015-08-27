@@ -1,6 +1,3 @@
-import sys
-sys.path.insert(0, '/home/gjum/src/agarnet/')
-
 from unittest import TestCase
 
 from agarnet.client import Client
