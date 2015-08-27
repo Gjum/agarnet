@@ -9,7 +9,7 @@ class Cell(object):
         self.cid = cid
         self.pos = Vec(x, y)
         self.size = size
-        self.mass = size**2 / 100.0
+        self.mass = size ** 2 / 100.0
         self.name = getattr(self, 'name', name) or name
         self.color = tuple(map(lambda rgb: rgb / 255.0, color))
         self.is_virus = is_virus
@@ -105,8 +105,14 @@ class Player(object):
     def is_spectating(self):
         return not self.is_alive
 
-    # @property
-    # def visible_area(self):
-    #     """Calculated like in the vanilla client."""
-    #     raise NotImplementedError
-    #     return Vec(), Vec()
+    @property
+    def visible_area(self):
+        """
+        Calculated like in the official client.
+        Returns (top_left, bottom_right).
+        """
+        # looks like zeach has a nice big screen
+        half_viewport = Vec(1920, 1080) / 2 / self.scale
+        top_left = self.world.center - half_viewport
+        bottom_right = self.world.center + half_viewport
+        return top_left, bottom_right
