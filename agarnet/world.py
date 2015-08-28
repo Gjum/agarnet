@@ -66,7 +66,7 @@ class World(object):
         return self.top_left.abs() + self.bottom_right.abs()
 
     def __eq__(self, other):
-        """Compare two worlds by comparing their leaderboards."""
+        """Compares two worlds by comparing their leaderboards."""
         for ls, lo in zip(self.leaderboard_names, other.leaderboard_names):
             if ls != lo:
                 return False
