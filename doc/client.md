@@ -27,7 +27,7 @@
     - [on_clear_cells()](#on_clear_cells)
     - [on_debug_line(x, y)](#on_debug_linex-y)
 - [Client](#client)
-  - [Client.\_\_init\_\_(subscriber)](#clientinitsubscriber)
+  - [Client.\_\_init\_\_(subscriber)](#client__init__subscriber)
   - [Attributes](#attributes)
     - [Client.address](#clientaddress)
     - [Client.connected](#clientconnected)

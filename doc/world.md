@@ -1,8 +1,8 @@
 # agarnet.world
 
 - [Cell](#cell)
-  - [Cell.\_\_init\_\_(\*args, \*\*kwargs)](#cellinitargs-kwargs)
-  - [Attributes](#attributes)
+  - [Cell.\_\_init\_\_(\*args, \*\*kwargs)](#cell__init__args-kwargs)
+  - [Cell attributes](#cell-attributes)
     - [Cell.cid](#cellcid)
     - [Cell.color](#cellcolor)
     - [Cell.is_agitated](#cellis_agitated)
@@ -13,12 +13,12 @@
     - [Cell.name](#cellname)
     - [Cell.pos](#cellpos)
     - [Cell.size](#cellsize)
-  - [Methods](#methods)
-    - [Cell.\_\_lt\_\_(other)](#cellltother)
+  - [Cell methods](#cell-methods)
+    - [Cell.\_\_lt\_\_(other)](#cell__lt__other)
     - [Cell.same_player(other)](#cellsame_playerother)
     - [Cell.update(\*args, \*\*kwargs)](#cellupdateargs-kwargs)
 - [World](#world)
-  - [Attributes](#attributes-1)
+  - [World attributes](#world-attributes)
     - [World.cells](#worldcells)
     - [World.leaderboard_groups](#worldleaderboard_groups)
     - [World.leaderboard_names](#worldleaderboard_names)
@@ -26,11 +26,11 @@
     - [World.bottom_right](#worldbottom_right)
     - [World.center](#worldcenter)
     - [World.size](#worldsize)
-  - [Methods](#methods-1)
-    - [World.\_\_eq\_\_(other)](#worldeqother)
+  - [World methods](#world-methods)
+    - [World.\_\_eq\_\_(other)](#world__eq__other)
     - [World.reset()](#worldreset)
 - [Player](#player)
-  - [Attributes](#attributes-2)
+  - [Player attributes](#player-attributes)
     - [Player.center](#playercenter)
     - [Player.is_alive](#playeris_alive)
     - [Player.is_spectating](#playeris_spectating)
@@ -42,17 +42,17 @@
     - [Player.total_size](#playertotal_size)
     - [Player.visible_area](#playervisible_area)
     - [Player.world](#playerworld)
-  - [Methods](#methods-2)
+  - [Player methods](#player-methods)
     - [Player.cells_changed()](#playercells_changed)
     - [Player.reset()](#playerreset)
 
 ## Cell
 
 ### Cell.\_\_init\_\_(\*args, \*\*kwargs)
-See [`Cell.update()`](#cellupdate) for the arguments.
+See [`Cell.update()`](#cellupdateargs-kwargs) for the arguments.
 
 
-### Attributes
+### Cell attributes
 
 #### Cell.cid
 Unique ID of the cell. Positive (non-zero).
@@ -91,7 +91,7 @@ String. Can be empty for player-controlled cells.
 The cell's radius. Do not confuse with [`mass`](#cellmass).
 
 
-### Methods
+### Cell methods
 
 #### Cell.\_\_lt\_\_(other)
 Compares by `mass` and `cid` in this order.
@@ -113,13 +113,13 @@ Parameters:
 - `is_virus=False`
 - `is_agitated=False`
 
-See [Attributes](#attributes) above for their descriptions.
+See the [attributes](#cell-attributes) above for their descriptions.
 
 
 ## World
 
 
-### Attributes
+### World attributes
 
 #### World.cells
 `defaultdict`, mapping cell IDs to their instances.
@@ -152,7 +152,7 @@ The name can be an empty string. The official client then displays "An unnamed c
 `Vec(width, height)`
 
 
-### Methods
+### World methods
 
 #### World.\_\_eq\_\_(other)
 Compares two worlds by comparing their leaderboards.
@@ -164,7 +164,7 @@ Clears the `cells` and leaderboards, and sets all corners to `Vec(0, 0)`.
 ## Player
 
 
-### Attributes
+### Player attributes
 
 #### Player.center
 The center of all controlled cells.
@@ -204,7 +204,7 @@ Returns `(Vec(left, top), Vec(right, bottom))`.
 The world that the player's cells are in.
 
 
-### Methods
+### Player methods
 
 #### Player.cells_changed()
 Calculates `total_size`, `total_mass`, `scale`, and `center`.
