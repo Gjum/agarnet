@@ -35,7 +35,7 @@ class ClientTest(TestCase):
 
         self.assertFalse(client.connected)
         self.assertEqual('', client.address)
-        self.assertEqual('', client.token)
+        self.assertEqual('', client.server_token)
 
         try:
             success = client.connect(address, token)
@@ -46,7 +46,7 @@ class ClientTest(TestCase):
         self.assertTrue(success)
         self.assertTrue(client.connected)
         self.assertEqual(address, client.address)
-        self.assertEqual(token, client.token)
+        self.assertEqual(token, client.server_token)
         self.assertEqual(nick, client.player.nick)
         self.assertEqual('sock_open', subscriber.events[-1])
 
@@ -55,6 +55,6 @@ class ClientTest(TestCase):
         self.assertFalse(client.connected)
         self.assertFalse(client.ingame)
         self.assertEqual(address, client.address)
-        self.assertEqual(token, client.token)
+        self.assertEqual(token, client.server_token)
         self.assertEqual(nick, client.player.nick)
         self.assertEqual('sock_closed', subscriber.events[-1])

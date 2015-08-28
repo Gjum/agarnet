@@ -43,14 +43,14 @@ class Client(object):
 
     def __init__(self, subscriber):
         """
-        :param subscriber: instance of a subclass of Subscriber,
-                           i.e. imlements any on_*() methods
+        :param subscriber: class instance that implements any on_*() methods
         """
         self.subscriber = subscriber
         self.player = Player()
         self.ws = websocket.WebSocket()
         self.address = ''
-        self.token = ''
+        self.server_token = ''
+        self.facebook_token = ''
         self.ingame = False
 
     @property
@@ -80,7 +80,8 @@ class Client(object):
                 'Already connected to "%s"' % self.address)
             return False
 
-        self.address, self.token = address, token
+        self.address = address
+        self.server_token = token
         self.ingame = False
 
         self.ws.settimeout(1)
@@ -98,8 +99,8 @@ class Client(object):
             return False
 
         self.send_handshake()
-        if self.token:
-            self.send_token(self.token)
+        if self.server_token:
+            self.send_token(self.server_token)
 
         old_nick = self.player.nick
         self.player.reset()
@@ -305,9 +306,11 @@ class Client(object):
 
     def send_token(self, token):
         self.send_struct('<B%iB' % len(token), 80, *map(ord, token))
+        self.server_token = token
 
     def send_facebook(self, token):
         self.send_struct('<B%iB' % len(token), 81, *map(ord, token))
+        self.facebook_token = token
 
     def send_respawn(self):
         nick = self.player.nick
