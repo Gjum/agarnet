@@ -4,12 +4,16 @@ from .vec import Vec
 
 
 class Cell(object):
-    def __init__(self, cid=-1, x=0, y=0, size=0, name='',
-                 color=(1, 0, 1), is_virus=False, is_agitated=False):
+    def __init__(self, *args, **kwargs):
+        self.pos = Vec()
+        self.update(*args, **kwargs)
+
+    def update(self, cid=-1, x=0, y=0, size=0, name='',
+               color=(1, 0, 1), is_virus=False, is_agitated=False):
         self.cid = cid
-        self.pos = Vec(x, y)
+        self.pos.set(x, y)
         self.size = size
-        self.mass = size**2 / 100.0
+        self.mass = size ** 2 / 100.0
         self.name = getattr(self, 'name', name) or name
         self.color = tuple(map(lambda rgb: rgb / 255.0, color))
         self.is_virus = is_virus
@@ -44,6 +48,14 @@ class World(object):
         self.leaderboard_groups = []
         self.top_left = Vec(0, 0)
         self.bottom_right = Vec(0, 0)
+        self.reset()
+
+    def reset(self):
+        self.cells.clear()
+        self.leaderboard_names.clear()
+        self.leaderboard_groups.clear()
+        self.top_left.set(0, 0)
+        self.bottom_right.set(0, 0)
 
     @property
     def center(self):
@@ -72,11 +84,13 @@ class Player(object):
     def __init__(self):
         self.world = World()
         self.own_ids = set()
+        self.reset()
+
+    def reset(self):
+        self.own_ids.clear()
         self.nick = ''
-        self.scale = 1
         self.center = self.world.center
-        self.total_size = 0
-        self.total_mass = 0
+        self.cells_changed()
 
     def cells_changed(self):
         self.total_size = sum(cell.size for cell in self.own_cells)
@@ -105,8 +119,14 @@ class Player(object):
     def is_spectating(self):
         return not self.is_alive
 
-    # @property
-    # def visible_area(self):
-    #     """Calculated like in the vanilla client."""
-    #     raise NotImplementedError
-    #     return Vec(), Vec()
+    @property
+    def visible_area(self):
+        """
+        Calculated like in the official client.
+        Returns (top_left, bottom_right).
+        """
+        # looks like zeach has a nice big screen
+        half_viewport = Vec(1920, 1080) / 2 / self.scale
+        top_left = self.world.center - half_viewport
+        bottom_right = self.world.center + half_viewport
+        return top_left, bottom_right
