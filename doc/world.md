@@ -1,6 +1,5 @@
 # agarnet.world
 
-- [agarnet.world](#agarnetworld)
 - [Cell](#cell)
   - [Cell.__init__(*args, **kwargs)](#cell__init__args-kwargs)
   - [Attributes](#attributes)
