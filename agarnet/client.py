@@ -130,17 +130,17 @@ class Client(object):
             msg = self.ws.recv()
         except Exception:
             self.disconnect()
-            return
+            return False
         if not msg:
             self.subscriber.on_message_error('Empty message received')
-            return
+            return False
         buf = BufferStruct(msg)
         opcode = buf.pop_uint8()
         try:
             packet_name = packet_s2c[opcode]
         except KeyError:
             self.subscriber.on_message_error('Unknown packet %s' % opcode)
-            return
+            return False
         if not self.ingame and packet_name in ingame_packets:
             self.subscriber.on_ingame()
             self.ingame = True
@@ -153,6 +153,7 @@ class Client(object):
             msg = 'Parsing %s packet failed: %s' % (packet_name, e.args[0])
             self.subscriber.on_message_error(msg)
             raise e
+        return True
 
     def parse_world_update(self, buf):
         self.subscriber.on_world_update_pre()
