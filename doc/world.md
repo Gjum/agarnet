@@ -1,7 +1,7 @@
 # agarnet.world
 
 - [Cell](#cell)
-  - [Cell.__init__(*args, **kwargs)](#cell__init__args-kwargs)
+  - [Cell.\_\_init\_\_(\*args, \*\*kwargs)](#cellinitargs-kwargs)
   - [Attributes](#attributes)
     - [Cell.cid](#cellcid)
     - [Cell.color](#cellcolor)
@@ -14,9 +14,9 @@
     - [Cell.pos](#cellpos)
     - [Cell.size](#cellsize)
   - [Methods](#methods)
-    - [Cell.__lt__(other)](#cell__lt__other)
+    - [Cell.\_\_lt\_\_(other)](#cellltother)
     - [Cell.same_player(other)](#cellsame_playerother)
-    - [Cell.update(*args, **kwargs)](#cellupdateargs-kwargs)
+    - [Cell.update(\*args, \*\*kwargs)](#cellupdateargs-kwargs)
 - [World](#world)
   - [Attributes](#attributes-1)
     - [World.cells](#worldcells)
@@ -27,7 +27,7 @@
     - [World.center](#worldcenter)
     - [World.size](#worldsize)
   - [Methods](#methods-1)
-    - [World.__eq__(other)](#world__eq__other)
+    - [World.\_\_eq\_\_(other)](#worldeqother)
     - [World.reset()](#worldreset)
 - [Player](#player)
   - [Attributes](#attributes-2)
@@ -48,7 +48,7 @@
 
 ## Cell
 
-### Cell.__init__(*args, **kwargs)
+### Cell.\_\_init\_\_(\*args, \*\*kwargs)
 See [`Cell.update()`](#cellupdate) for the arguments.
 
 
@@ -93,7 +93,7 @@ The cell's radius. Do not confuse with [`mass`](#cellmass).
 
 ### Methods
 
-#### Cell.__lt__(other)
+#### Cell.\_\_lt\_\_(other)
 Compares by `mass` and `cid` in this order.
 
 #### Cell.same_player(other)
@@ -101,7 +101,7 @@ Compares `name` and `color`.
 
 Returns `True` if both are owned by the same player.
 
-#### Cell.update(*args, **kwargs)
+#### Cell.update(\*args, \*\*kwargs)
 Parameters:
 
 - `cid=-1`
@@ -154,7 +154,7 @@ The name can be an empty string. The official client then displays "An unnamed c
 
 ### Methods
 
-#### World.__eq__(other)
+#### World.\_\_eq\_\_(other)
 Compares two worlds by comparing their leaderboards.
 
 #### World.reset()

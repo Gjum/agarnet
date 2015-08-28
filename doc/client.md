@@ -27,7 +27,7 @@
     - [on_clear_cells()](#on_clear_cells)
     - [on_debug_line(x, y)](#on_debug_linex-y)
 - [Client](#client)
-  - [Client.__init__(subscriber)](#client__init__subscriber)
+  - [Client.\_\_init\_\_(subscriber)](#clientinitsubscriber)
   - [Attributes](#attributes)
     - [Client.address](#clientaddress)
     - [Client.connected](#clientconnected)
@@ -240,7 +240,7 @@ The server told the client to draw a line from all cells to this position.
 ## Client
 
 
-### Client.__init__(subscriber)
+### Client.\_\_init\_\_(subscriber)
 - `subscriber` class instance that implements any `on_*()` event methods
 
 
@@ -286,7 +286,7 @@ Returns `True` if connected, `False` if the connection failed.
 Parameters:
 
 - `address` string, `'IP:PORT'`
-- `token` optional, unique token, required by official servers, acquired through `find_server()`
+- `token` optional, unique token, required by official servers, acquired through [`find_server()`](utils.md#find_serverregioneu-london-modenone)
 
 #### Client.disconnect()
 Disconnect from server.
@@ -311,10 +311,10 @@ Tells the server which protocol to use.
 Has to be sent before any other packets, or the server will disconnect the client.
 
 #### Client.send_token(token)
-Used by `connect()`.
+Used by [`connect()`](#clientconnectaddress-tokennone).
 
 After connecting to an official server and sending the handshake packets,
-the client has to send the token acquired through `find_server()`,
+the client has to send the token acquired through [`find_server()`](utils.md#find_serverregioneu-london-modenone),
 otherwise the server will drop the connection upon receiving any other packet.
 
 #### Client.send_facebook(token)
