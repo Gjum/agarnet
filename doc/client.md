@@ -27,6 +27,7 @@
     - [on_clear_cells()](#on_clear_cells)
     - [on_debug_line(x, y)](#on_debug_linex-y)
 - [Client](#client)
+  - [Client.__init__(subscriber)](#client__init__subscriber)
   - [Attributes](#attributes)
     - [Client.address](#clientaddress)
     - [Client.connected](#clientconnected)
@@ -37,8 +38,6 @@
     - [Client.subscriber](#clientsubscriber)
     - [Client.world](#clientworld)
     - [Client.ws](#clientws)
-  - [Constructor](#constructor)
-    - [Client.__init__(subscriber)](#client__init__subscriber)
   - [Connection](#connection-1)
     - [Client.connect(address, token=None)](#clientconnectaddress-tokennone)
     - [Client.disconnect()](#clientdisconnect)
@@ -197,7 +196,7 @@ Usually the first packet sent by the server.
 #### on_leaderboard_groups(angles)
 Sent every 500ms.
 
-- `angles` Angles for the pie chart in `teams` mode.
+- `angles` List of angles (`float`) for the pie chart in `teams` mode.
 
 #### on_leaderboard_names(leaderboard)
 Sent every 500ms.
@@ -205,6 +204,8 @@ Sent every 500ms.
 - `leaderboard` List of `(cid, name)` pairs, from top to bottom (1st to 10th).
 
 The `cid`s seem to always be the lowest ID of that player.
+
+The name can be an empty string. The official client then displays "An unnamed cell" instead.
 
 #### on_ingame()
 The client started receiving ingame packets.
@@ -239,6 +240,10 @@ The server told the client to draw a line from all cells to this position.
 ## Client
 
 
+### Client.__init__(subscriber)
+- `subscriber` class instance that implements any `on_*()` event methods
+
+
 ### Attributes
 
 #### Client.address
@@ -271,12 +276,6 @@ Gets updated with data from the server.
 The websocket instance used to connect to the server.
 
 
-### Constructor
-
-#### Client.__init__(subscriber)
-- `subscriber` class instance that implements any `on_*()` event methods
-
-
 ### Connection
 
 #### Client.connect(address, token=None)
@@ -285,6 +284,7 @@ Connect to the address, send a `handshake` and optionally a `token` packet.
 Returns `True` if connected, `False` if the connection failed.
 
 Parameters:
+
 - `address` string, `'IP:PORT'`
 - `token` optional, unique token, required by official servers, acquired through `find_server()`
 
