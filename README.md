@@ -20,6 +20,14 @@ or, if you want to get/edit the source code,
     cd agarnet/
     python3 setup.py install
 
+Documentation
+-------------
+See [doc/](https://github.com/Gjum/agarnet/blob/master/doc/):
+- [events](https://github.com/Gjum/agarnet/blob/master/doc/client.md#events)
+- [client](https://github.com/Gjum/agarnet/blob/master/doc/client.md#client)
+- [cell, world, player](https://github.com/Gjum/agarnet/blob/master/doc/world.md#agarnetworld)
+- [utils](https://github.com/Gjum/agarnet/blob/master/doc/utils.md#agarnetutils)
+
 About
 -----
 This is a hobby project of me, on which I work in my free time.
