@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 from .vec import Vec
 
 
@@ -43,7 +41,7 @@ class Cell(object):
 
 class World(object):
     def __init__(self):
-        self.cells = defaultdict(Cell)
+        self.cells = {}
         self.leaderboard_names = []
         self.leaderboard_groups = []
         self.top_left = Vec(0, 0)
@@ -56,6 +54,13 @@ class World(object):
         self.leaderboard_groups.clear()
         self.top_left.set(0, 0)
         self.bottom_right.set(0, 0)
+
+    def create_cell(self, cid):
+        """
+        Creates a new cell in the world.
+        Override to use a custom cell class.
+        """
+        self.cells[cid] = Cell()
 
     @property
     def center(self):

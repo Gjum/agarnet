@@ -198,6 +198,8 @@ class Client(object):
             self.subscriber.on_cell_info(
                 cid=cid, x=cx, y=cy, size=csize, name=cname, color=color,
                 is_virus=is_virus, is_agitated=is_agitated)
+            if cid not in cells:
+                self.world.create_cell(cid)
             cells[cid].update(
                 cid=cid, x=cx, y=cy, size=csize, name=cname, color=color,
                 is_virus=is_virus, is_agitated=is_agitated)
@@ -244,7 +246,9 @@ class Client(object):
             self.player.own_ids.clear()
             self.subscriber.on_respawn()
         # server sends empty name, assumes we set it here
-        self.world.cells[cid].name = self.player.nick
+        if cid not in self.world.cells:
+            self.world.create_cell(cid)
+        # self.world.cells[cid].name = self.player.nick
         self.player.own_ids.add(cid)
         self.player.cells_changed()
         self.subscriber.on_own_id(cid=cid)
