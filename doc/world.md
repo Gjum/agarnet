@@ -28,6 +28,7 @@
     - [World.size](#worldsize)
   - [World methods](#world-methods)
     - [World.\_\_eq\_\_(other)](#world__eq__other)
+    - [World.create_cell(cid)](#worldcreate_cellcid)
     - [World.reset()](#worldreset)
 - [Player](#player)
   - [Player attributes](#player-attributes)
@@ -156,6 +157,11 @@ The name can be an empty string. The official client then displays "An unnamed c
 
 #### World.\_\_eq\_\_(other)
 Compares two worlds by comparing their leaderboards.
+
+#### World.create_cell(cid)
+Creates a new cell in the world.
+
+Override to use a custom cell class.
 
 #### World.reset()
 Clears the `cells` and leaderboards, and sets all corners to `Vec(0, 0)`.
