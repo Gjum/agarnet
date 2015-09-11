@@ -147,12 +147,12 @@ class Client(object):
         parser = getattr(self, 'parse_%s' % packet_name)
         try:
             parser(buf)
-            assert len(buf.buffer) == 0, \
-                'Buffer not empty after parsing "%s" packet' % packet_name
         except BufferUnderflowError as e:
             msg = 'Parsing %s packet failed: %s' % (packet_name, e.args[0])
             self.subscriber.on_message_error(msg)
-            raise e
+        if len(buf.buffer) != 0:
+            msg = 'Buffer not empty after parsing "%s" packet' % packet_name
+            self.subscriber.on_message_error(msg)
         return True
 
     def parse_world_update(self, buf):
