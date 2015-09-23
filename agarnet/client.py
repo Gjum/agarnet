@@ -23,8 +23,8 @@ packet_c2s = {
     1: 'spectate',
     16: 'target',
     17: 'split',
-    18: 'shoot',
     20: 'explode',
+    21: 'shoot',
     80: 'token',
     81: 'facebook',
     254: 'handshake1',
@@ -35,7 +35,7 @@ ingame_packets = ('world_rect', 'world_update', 'leaderboard_names',
                   'leaderboard_groups', 'spectate_update', 'own_id')
 
 
-handshake_version = 154669603
+handshake_version = 2200049715
 
 
 class Client(object):
