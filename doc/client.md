@@ -15,6 +15,7 @@
     - [on_world_update_post()](#on_world_update_post)
   - [Other ingame events](#other-ingame-events)
     - [on_world_rect(left, top, right, bottom)](#on_world_rectleft-top-right-bottom)
+    - [on_server_version(number, text)](#on_server_versionnumber-text)
     - [on_leaderboard_groups(angles)](#on_leaderboard_groupsangles)
     - [on_leaderboard_names(leaderboard)](#on_leaderboard_namesleaderboard)
     - [on_ingame()](#on_ingame)
@@ -193,6 +194,12 @@ Roughly in order of appearance during a session.
 The borders of the rectangular world.
 
 Usually the first packet sent by the server.
+
+#### on_server_version(number, text)
+Sent in the `world_rect` packet. Example:
+
+    number = 0
+    text = "Sep 14 2015 22:58:35"
 
 #### on_leaderboard_groups(angles)
 Sent every 500ms.

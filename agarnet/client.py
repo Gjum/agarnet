@@ -265,6 +265,11 @@ class Client(object):
         self.world.bottom_right = Vec(bottom, right)
         self.player.center = self.world.center
 
+        if buf.buffer:
+            number = buf.pop_uint32()
+            text = buf.pop_str16()
+            self.subscriber.on_server_version(number=number, text=text)
+
     def parse_spectate_update(self, buf):
         # only in spectate mode
         x = buf.pop_float32()
