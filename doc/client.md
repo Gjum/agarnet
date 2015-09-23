@@ -48,6 +48,7 @@
     - [Client.send_token(token)](#clientsend_tokentoken)
     - [Client.send_facebook(token)](#clientsend_facebooktoken)
     - [Client.send_spectate()](#clientsend_spectate)
+    - [Client.send_spectate_toggle()](#clientsend_spectate_toggle)
     - [Client.send_respawn()](#clientsend_respawn)
     - [Client.send_target(x, y, cid=0)](#clientsend_targetx-y-cid0)
     - [Client.send_shoot()](#clientsend_shoot)
@@ -328,6 +329,9 @@ Seems to be broken in recent versions of the game.
 Puts the player into spectate mode.
 
 The server then starts sending `spectate_update` packets containing the center and size of the spectated area.
+
+#### Client.send_spectate_toggle()
+Toggles the spectate mode between following the largest player and moving around freely.
 
 #### Client.send_respawn()
 Respawns the player.

@@ -23,6 +23,7 @@ packet_c2s = {
     1: 'spectate',
     16: 'target',
     17: 'split',
+    18: 'spectate_toggle',
     20: 'explode',
     21: 'shoot',
     80: 'token',
@@ -326,6 +327,9 @@ class Client(object):
 
     def send_spectate(self):
         self.send_struct('<B', 1)
+
+    def send_spectate_toggle(self):
+        self.send_struct('<B', 18)
 
     def send_split(self):
         self.send_struct('<B', 17)
