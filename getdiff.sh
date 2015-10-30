@@ -6,7 +6,7 @@ sha=`./getmain.sh "$ver"`
 
 unset -v filepreprev
 unset -v fileprev
-for file in main_*_xx_*.js; do
+for file in main_*-*-*_xx_*.js; do
   if [[ $file > $fileprev ]]; then
     filepreprev="$fileprev"
     fileprev="$file"
