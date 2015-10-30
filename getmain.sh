@@ -2,7 +2,7 @@
 cd js/ &> /dev/null
 [[ "$1" ]] && ver="$1" || ver=`date +%Y-%m-%d_%H.%M.%S`
 # get file and save as main_VER_raw_SHA.js
-curl -s http://agar.io/ | awk '/^\(function\(..?,..?\)\{/,/<\/script>/' | head -n -1 > main_${ver}_tmp.js
+curl -s http://agar.io/main_out.js > main_${ver}_tmp.js
 sha=`sha256sum main_${ver}_tmp.js | cut -d\  -f1`
 mv main_${ver}_tmp.js main_${ver}_raw_${sha}.js
 # the SHA of all file names is the one of the _raw file content
