@@ -56,20 +56,6 @@
     - [Client.send_split()](#clientsend_split)
     - [Client.send_explode()](#clientsend_explode)
 - [Internal details](#internal-details)
-    - [handshake_version](#handshake_version)
-    - [ingame_packets](#ingame_packets)
-    - [packet_c2s](#packet_c2s)
-    - [packet_s2c](#packet_s2c)
-    - [Client.parse_world_update()](#clientparse_world_update)
-    - [Client.parse_leaderboard_names()](#clientparse_leaderboard_names)
-    - [Client.parse_leaderboard_groups()](#clientparse_leaderboard_groups)
-    - [Client.parse_own_id()](#clientparse_own_id)
-    - [Client.parse_world_rect()](#clientparse_world_rect)
-    - [Client.parse_spectate_update()](#clientparse_spectate_update)
-    - [Client.parse_experience_info()](#clientparse_experience_info)
-    - [Client.parse_clear_cells()](#clientparse_clear_cells)
-    - [Client.parse_debug_line()](#clientparse_debug_line)
-    - [Client.send_struct(fmt, *data)](#clientsend_structfmt-data)
 
 ## Events
 When emitting an event, the [`subscriber`](#clientsubscriber)'s corresponding `on_*()` method gets called.
