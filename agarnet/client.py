@@ -220,7 +220,8 @@ class Client(object):
                 if cid in self.player.own_ids:  # own cells joined
                     self.player.own_ids.remove(cid)
 
-        self.player.cells_changed()
+        if self.player.is_alive:
+            self.player.cells_changed()
 
         self.subscriber.on_world_update_post()
 

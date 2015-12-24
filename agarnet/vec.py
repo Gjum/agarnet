@@ -20,7 +20,8 @@ class Vec(object):
                 try:
                     self.x, self.y = x
                 except TypeError:
-                    raise TypeError("Invalid parameters")
+                    raise TypeError("Invalid parameters: %s %s" %
+                                    (x, y))
 
     def copy(self):
         return Vec(self.x, self.y)
