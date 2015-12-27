@@ -40,6 +40,8 @@ class Cell(object):
 
 
 class World(object):
+    cell_class = Cell
+
     def __init__(self):
         self.cells = {}
         self.leaderboard_names = []
@@ -60,7 +62,7 @@ class World(object):
         Creates a new cell in the world.
         Override to use a custom cell class.
         """
-        self.cells[cid] = Cell()
+        self.cells[cid] = self.cell_class()
 
     @property
     def center(self):

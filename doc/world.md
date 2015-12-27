@@ -18,6 +18,7 @@
     - [Cell.same_player(other)](#cellsame_playerother)
     - [Cell.update(\*args, \*\*kwargs)](#cellupdateargs-kwargs)
 - [World](#world)
+  - [World.cell_class](#worldcell_class)
   - [World attributes](#world-attributes)
     - [World.cells](#worldcells)
     - [World.leaderboard_groups](#worldleaderboard_groups)
@@ -120,15 +121,26 @@ See the [attributes](#cell-attributes) above for their descriptions.
 ## World
 
 
+#### World.cell_class
+The class this world uses when creating cells.
+
+Override this for storing custom data per cell or extending its functionality.
+
+Defaults to `agarnet.world.Cell`.
+
+```python
+class MyCustomCellClass(agarnet.world.Cell):
+    @property
+    def has_skin(self):  # some custom method example
+        return self.name in special_names
+
+my_world.cell_class = MyCustomCellClass
+```
+
 ### World attributes
 
 #### World.cells
-`defaultdict`, mapping cell IDs to their instances.
-
-To override the default cell class, set its `default_factory`:
-```python
-my_world.cells.default_factory = MyCustomCellClass
-```
+A `dict` mapping cell IDs to their instances.
 
 #### World.leaderboard_groups
 List of angles (`float`) for the pie chart in `teams` mode.
