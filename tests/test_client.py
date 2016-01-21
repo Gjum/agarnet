@@ -88,6 +88,7 @@ class ClientTest(unittest.TestCase):
             'cell_info': False, 'cell_eaten': False,
             'cell_removed': True,  # not required, but checked
         }
+        ignored_events = ('world_update_pre', 'world_update_post', 'cell_skin')
         for i in range(30):  # assuming <30tps and >1 leaderboard per second
             # receive any packet
             subscriber.reset()
@@ -113,7 +114,7 @@ class ClientTest(unittest.TestCase):
                     elif evt == 'cell_removed':
                         received['cell_removed'] = True
                         self.assertSetEqual({'cid'}, set(data.keys()))
-                    elif evt not in ('world_update_pre', 'world_update_post'):
+                    elif evt not in ignored_events:
                         self.fail('Got unexpected event during world_update:'
                                   ' %s %s' % (evt, data))
             else:

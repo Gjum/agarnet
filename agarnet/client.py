@@ -257,6 +257,9 @@ class Client(object):
                 cid=cid, x=cx, y=cy, size=csize, name=cname, color=color,
                 is_virus=is_virus, is_agitated=is_agitated)
 
+            if skin_url:  # TODO Cell.update() and on_cell_info got too bulky
+                self.subscriber.on_cell_skin(skin_url=skin_url)
+
     def parse_cell_deletions(self, buf):
         cells = self.player.world.cells
         # also keep these non-updated cells
