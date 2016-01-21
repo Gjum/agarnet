@@ -51,6 +51,9 @@ class World(object):
         self.reset()
 
     def reset(self):
+        """
+        Clears the `cells` and leaderboards, and sets all corners to `0,0`.
+        """
         self.cells.clear()
         self.leaderboard_names.clear()
         self.leaderboard_groups.clear()
@@ -89,17 +92,42 @@ class World(object):
 
 class Player(object):
     def __init__(self):
+        # The world that the player's cells are in.
         self.world = World()
+
+        # All controlled cell IDs.
         self.own_ids = set()
+
+        # The center of all controlled cells.
+        self.center = self.world.center
+
+        # Combined size of all controlled cells.
+        self.total_size = 0
+
+        # Combined mass of all controlled cells.
+        self.total_mass = 0
+
+        self.nick = ''
+        self.scale = 1.0
+
         self.reset()
 
     def reset(self):
+        """
+        Clears `nick` and `own_ids`, sets `center` to `world.center`,
+        and then calls `cells_changed()`.
+        """
         self.own_ids.clear()
         self.nick = ''
         self.center = self.world.center
         self.cells_changed()
 
     def cells_changed(self):
+        """
+        Calculates `total_size`, `total_mass`, `scale`, and `center`.
+
+        Has to be called when the controlled cells (`own_ids`) change.
+        """
         self.total_size = sum(cell.size for cell in self.own_cells)
         self.total_mass = sum(cell.mass for cell in self.own_cells)
         self.scale = pow(min(1.0, 64.0 / self.total_size), 0.4) \
@@ -111,6 +139,7 @@ class Player(object):
             top = min(cell.pos.y for cell in self.own_cells)
             bottom = max(cell.pos.y for cell in self.own_cells)
             self.center = Vec(left + right, top + bottom) / 2
+
         # else: keep old center
 
     @property

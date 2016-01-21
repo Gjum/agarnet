@@ -3,6 +3,7 @@ import urllib.request
 
 from .client import handshake_version
 
+# List of names that always have a skin on the official client.
 special_names = 'poland;usa;china;russia;canada;australia;spain;brazil;germany;ukraine;france;sweden;chaplin;north korea;south korea;japan;united kingdom;earth;greece;latvia;lithuania;estonia;finland;norway;cia;maldivas;austria;nigeria;reddit;yaranaika;confederate;9gag;indiana;4chan;italy;bulgaria;tumblr;2ch.hk;hong kong;portugal;jamaica;german empire;mexico;sanik;switzerland;croatia;chile;indonesia;bangladesh;thailand;iran;iraq;peru;moon;botswana;bosnia;netherlands;european union;taiwan;pakistan;hungary;satanist;qing dynasty;matriarchy;patriarchy;feminism;ireland;texas;facepunch;prodota;cambodia;steam;piccolo;ea;india;kc;denmark;quebec;ayy lmao;sealand;bait;tsarist russia;origin;vinesauce;stalin;belgium;luxembourg;stussy;prussia;8ch;argentina;scotland;sir;romania;belarus;wojak;doge;nasa;byzantium;imperial japan;french kingdom;somalia;turkey;mars;pokerface;8;irs;receita federal;facebook;putin;merkel;tsipras;obama;kim jong-un;dilma;hollande;berlusconi;cameron;clinton;hillary;venezuela;blatter;chavez;cuba;fidel;palin;queen;boris;bush;trump' \
     .split(';')
 
@@ -16,6 +17,16 @@ moz_headers = [
 
 
 def find_server(region='EU-London', mode=None):
+    """
+    Returns `(address, token)`, both strings.
+
+    `mode` is the game mode of the requested server. It can be
+    `'party'`, `'teams'`, `'experimental'`, or `None` for "Free for all".
+
+    The returned `address` is in `'IP:port'` format.
+
+    Makes a request to http://m.agar.io to get address and token.
+    """
     if mode:
         region = '%s:%s' % (region, mode)
     opener = urllib.request.build_opener()
@@ -26,6 +37,17 @@ def find_server(region='EU-London', mode=None):
 
 
 def get_party_address(party_token):
+    """
+    Returns the address (`'IP:port'` string) of the party server.
+
+    To generate a `party_token`:
+    ```
+    from agarnet.utils import find_server
+    _, token = find_server(mode='party')
+    ```
+
+    Makes a request to http://m.agar.io/getToken to get the address.
+    """
     opener = urllib.request.build_opener()
     opener.addheaders = moz_headers
     try:

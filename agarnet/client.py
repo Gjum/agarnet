@@ -47,11 +47,24 @@ class Client(object):
         :param subscriber: class instance that implements any on_*() methods
         """
         self.subscriber = subscriber
+
+        # Gets updated with the new data when the server sends a packet.
         self.player = Player()
+
+        # The websocket instance used to connect to the server.
         self.ws = websocket.WebSocket()
+
+        # The most recent address used to connect to the server.
         self.address = ''
+
+        # The most recent token used to connect to the server.
         self.server_token = ''
+
+        # The most recent Facebook token sent to a server.
         self.facebook_token = ''
+
+        # `False` after connection, gets set to `True` when
+        # receiving a packet listed in `ingame_packets`.
         self.ingame = False
 
     @property
@@ -71,9 +84,11 @@ class Client(object):
         Connect the underlying websocket to the address,
         send a handshake and optionally a token packet.
 
+        Returns `True` if connected, `False` if the connection failed.
+
         :param address: string, `IP:PORT`
         :param token: unique token, required by official servers,
-                      acquired through find_server()
+                      acquired through utils.find_server()
         :return: True if connected, False if not
         """
         if self.connected:
@@ -110,13 +125,23 @@ class Client(object):
         return True
 
     def disconnect(self):
+        """
+        Disconnect from server.
+
+        Closes the websocket, sets `ingame = False`, and emits on_sock_closed.
+        """
         self.ws.close()
         self.ingame = False
         self.subscriber.on_sock_closed()
         # keep player/world data
 
     def listen(self):
-        """Set up a quick connection. Returns on disconnect."""
+        """
+        Set up a quick connection. Returns on disconnect.
+
+        After calling `connect()`, this waits for messages from the server
+        using `select`, and notifies the subscriber of any events.
+        """
         import select
         while self.connected:
             r, w, e = select.select((self.ws.sock, ), (), ())
@@ -319,41 +344,108 @@ class Client(object):
     # d float64
 
     def send_struct(self, fmt, *data):
+        """
+        If connected, formats the data to a struct and sends it to the server.
+        Used internally by all other `send_*()` methods.
+        """
         if self.connected:
             self.ws.send(struct.pack(fmt, *data))
 
     def send_handshake(self):
+        """
+        Used by `Client.connect()`.
+
+        Tells the server which protocol to use.
+        Has to be sent before any other packets,
+        or the server will drop the connection when receiving any other packet.
+        """
         self.send_struct('<BI', 254, 5)
         self.send_struct('<BI', 255, handshake_version)
 
     def send_token(self, token):
+        """
+        Used by `Client.connect()`.
+
+        After connecting to an official server and sending the
+        handshake packets, the client has to send the token
+        acquired through `utils.find_server()`, otherwise the server will
+        drop the connection when receiving any other packet.
+        """
         self.send_struct('<B%iB' % len(token), 80, *map(ord, token))
         self.server_token = token
 
     def send_facebook(self, token):
+        """
+        Tells the server which Facebook account this client uses.
+
+        After sending, the server takes some time to
+        get the data from Facebook.
+
+        Seems to be broken in recent versions of the game.
+        """
         self.send_struct('<B%iB' % len(token), 81, *map(ord, token))
         self.facebook_token = token
 
     def send_respawn(self):
+        """
+        Respawns the player.
+        """
         nick = self.player.nick
         self.send_struct('<B%iH' % len(nick), 0, *map(ord, nick))
 
     def send_target(self, x, y, cid=0):
+        """
+        Sets the target position of all cells.
+
+        `x` and `y` are world coordinates. They can exceed the world border.
+
+        For continuous movement, send a new target position
+        before the old one is reached.
+
+        In earlier versions of the game, it was possible to
+        control each cell individually by specifying the cell's `cid`.
+
+        Same as moving your mouse in the original client.
+        """
         self.send_struct('<BiiI', 16, int(x), int(y), cid)
 
     def send_spectate(self):
+        """
+        Puts the player into spectate mode.
+
+        The server then starts sending `spectate_update` packets
+        containing the center and size of the spectated area.
+        """
         self.send_struct('<B', 1)
 
     def send_spectate_toggle(self):
+        """
+        Toggles the spectate mode between following the largest player
+        and moving around freely.
+        """
         self.send_struct('<B', 18)
 
     def send_split(self):
+        """
+        Splits all controlled cells, while not exceeding 16 cells.
+
+        Same as pressing `Space` in the original client.
+        """
         self.send_struct('<B', 17)
 
     def send_shoot(self):
+        """
+        Ejects a pellet from all controlled cells.
+
+        Same as pressing `W` in the original client.
+        """
         self.send_struct('<B', 21)
 
     def send_explode(self):
+        """
+        In earlier versions of the game, sending this caused your cells
+        to split into lots of small cells and die.
+        """
         self.send_struct('<B', 20)
         self.player.own_ids.clear()
         self.player.cells_changed()

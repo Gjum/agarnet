@@ -273,14 +273,15 @@ The websocket instance used to connect to the server.
 ### Connection
 
 #### Client.connect(address, token=None)
-Connect to the address, send a `handshake` and optionally a `token` packet.
+Connect the underlying websocket to the address,
+ send a `handshake` and optionally a `token` packet.
 
 Returns `True` if connected, `False` if the connection failed.
 
 Parameters:
 
 - `address` string, `'IP:PORT'`
-- `token` optional, unique token, required by official servers, acquired through [`find_server()`](utils.md#find_serverregioneu-london-modenone)
+- `token` optional, unique token, required by official servers, acquired through [`utils.find_server()`](utils.md#find_serverregioneu-london-modenone)
 
 #### Client.disconnect()
 Disconnect from server.
@@ -288,11 +289,13 @@ Disconnect from server.
 Closes the websocket, sets `ingame = False`, and emits an [`on_sock_closed`](#on_sock_closed) event.
 
 #### Client.listen()
+Set up a quick connection. Returns on disconnect.
+
 After calling `connect()`, this waits for messages from the server using `select`,
 and notifies the [`subscriber`](#clientsubscriber) of any [events](#events).
 
 #### Client.on_message()
-Call this to poll the websocket for a new packet.
+Poll the websocket for a new packet.
 
 Called by `listen()`.
 
@@ -300,6 +303,8 @@ Called by `listen()`.
 ### Sending packets to the server
 
 #### Client.send_handshake()
+Used by [`connect()`](#clientconnectaddress-tokennone).
+
 Tells the server which protocol to use.
 
 Has to be sent before any other packets, or the server will disconnect the client.
@@ -336,7 +341,7 @@ Sets the target position of all cells.
 
 For continuous movement, send a new target position before the old one is reached.
 
-In earlier versions of the game, it was possible to control single cell by specifying the cell's `cid`.
+In earlier versions of the game, it was possible to control each cell individually by specifying the cell's `cid`.
 
 Same as moving your mouse in the original client.
 
