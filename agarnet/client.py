@@ -201,13 +201,18 @@ class Client(object):
     def parse_world_update(self, buf):
         self.subscriber.on_world_update_pre()
 
-        # we keep the previous world state, so
-        # handlers can print names, check own_ids, ...
+        self.parse_cell_eating(buf)
+        self.parse_cell_updates(buf)
+        self.parse_cell_deletions(buf)
 
-        cells = self.player.world.cells
+        if self.player.is_alive:
+            self.player.cells_changed()
 
-        # ca eats cb
+        self.subscriber.on_world_update_post()
+
+    def parse_cell_eating(self, buf):
         for i in range(buf.pop_uint16()):
+            # ca eats cb
             ca = buf.pop_uint32()
             cb = buf.pop_uint32()
             self.subscriber.on_cell_eaten(eater_id=ca, eaten_id=cb)
@@ -216,10 +221,11 @@ class Client(object):
                     self.subscriber.on_death()
                     # do not clear all cells yet, they still get updated
                 self.player.own_ids.remove(cb)
-            if cb in cells:
+            if cb in self.player.world.cells:
                 self.subscriber.on_cell_removed(cid=cb)
-                del cells[cb]
+                del self.player.world.cells[cb]
 
+    def parse_cell_updates(self, buf):
         # create/update cells
         while 1:
             cid = buf.pop_uint32()
@@ -245,12 +251,14 @@ class Client(object):
             self.subscriber.on_cell_info(
                 cid=cid, x=cx, y=cy, size=csize, name=cname, color=color,
                 is_virus=is_virus, is_agitated=is_agitated)
-            if cid not in cells:
+            if cid not in self.player.world.cells:
                 self.world.create_cell(cid)
-            cells[cid].update(
+            self.player.world.cells[cid].update(
                 cid=cid, x=cx, y=cy, size=csize, name=cname, color=color,
                 is_virus=is_virus, is_agitated=is_agitated)
 
+    def parse_cell_deletions(self, buf):
+        cells = self.player.world.cells
         # also keep these non-updated cells
         for i in range(buf.pop_uint32()):
             cid = buf.pop_uint32()
@@ -259,11 +267,6 @@ class Client(object):
                 del cells[cid]
                 if cid in self.player.own_ids:  # own cells joined
                     self.player.own_ids.remove(cid)
-
-        if self.player.is_alive:
-            self.player.cells_changed()
-
-        self.subscriber.on_world_update_post()
 
     def parse_leaderboard_names(self, buf):
         # sent every 500ms
