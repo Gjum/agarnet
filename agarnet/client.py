@@ -151,12 +151,23 @@ class Client(object):
                 self.subscriber.on_sock_error(e)
         self.disconnect()
 
-    def on_message(self):
-        try:
-            msg = self.ws.recv()
-        except Exception:
-            self.disconnect()
-            return False
+    def on_message(self, msg=None):
+        """
+        Poll the websocket for a new packet.
+
+        `Client.listen()` calls this.
+
+        :param msg (string(byte array)): Optional. Parse the specified message
+            instead of receiving a packet from the socket.
+        """
+        if msg is None:
+            try:
+                msg = self.ws.recv()
+            except Exception as e:
+                self.subscriber.on_message_error(
+                    'Error while receiving packet: %s' % str(e))
+                self.disconnect()
+                return False
 
         if not msg:
             self.subscriber.on_message_error('Empty message received')
