@@ -52,8 +52,9 @@ def get_party_address(party_token):
     opener = urllib.request.build_opener()
     opener.addheaders = default_headers
     try:
-        return opener.open('http://m.agar.io/getToken', data=party_token.encode()) \
+        data = party_token.encode()
+        return opener.open('http://m.agar.io/getToken', data=data) \
             .read().decode().split('\n')[0]
     except urllib.error.HTTPError:
-        raise ValueError('Invalid token "%s" (maybe timed out after 10min?)'
-                         % party_token)
+        raise ValueError('Invalid token "%s" (maybe timed out,'
+                         ' try creating a new one)' % party_token)
