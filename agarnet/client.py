@@ -316,7 +316,6 @@ class Client(object):
             left=left, top=top, right=right, bottom=bottom)
         self.world.top_left = Vec(top, left)
         self.world.bottom_right = Vec(bottom, right)
-        self.player.center = self.world.center
 
         if buf.buffer:
             number = buf.pop_uint32()
