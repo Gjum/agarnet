@@ -9,6 +9,7 @@ from .world import Player
 packet_s2c = {
     16: 'world_update',
     17: 'spectate_update',
+    18: 'clear_cells',  # TODO which cells?
     20: 'clear_cells',
     21: 'debug_line',
     32: 'own_id',
