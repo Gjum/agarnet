@@ -15,8 +15,12 @@ class SubscriberMock(object):
         self.data.clear()
 
     def __getattr__(self, item):
-        assert item[:3] == 'on_', 'Requested non-event handler from subscriber'
-        assert 'error' not in item, 'Error event emitted'
+        assert item[:3] == 'on_', \
+            'Requested non-event handler %s from subscriber' % item
+        if 'error' in item:
+            def error_handler(error):
+                raise AssertionError('Error event "%s": %s' % (item, error))
+            return error_handler
         event = item[3:]
         data = {}
         self.events.append(event)
@@ -84,7 +88,7 @@ class ClientTest(unittest.TestCase):
 
         # receive at least one leaderboard and world_update
         received = {
-            'leaderboard': False, 'world_update': False,
+            'leaderboard': False, 'world_update': False, 'world_rect': False,
             'cell_info': False, 'cell_eaten': False,
             'cell_removed': True,  # not required, but checked
         }
@@ -96,6 +100,10 @@ class ClientTest(unittest.TestCase):
             if subscriber.events[0] == 'leaderboard_names':
                 received['leaderboard'] = True
                 pop_and_check_keys('leaderboard_names', 'leaderboard')
+            elif subscriber.events[0] == 'world_rect':
+                received['world_rect'] = True
+                pop_and_check_keys(
+                    'world_rect', 'left', 'top', 'right', 'bottom')
             elif subscriber.events[0] == 'world_update_pre':
                 received['world_update'] = True
                 self.assertEqual('world_update_post', subscriber.events[-1])
