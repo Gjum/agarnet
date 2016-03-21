@@ -37,7 +37,7 @@ ingame_packets = ('world_rect', 'world_update', 'leaderboard_names',
                   'leaderboard_groups', 'spectate_update', 'own_id')
 
 
-handshake_version = 2200049715
+handshake_version = 154669603
 
 
 class Client(object):
