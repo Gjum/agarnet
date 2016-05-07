@@ -1,3 +1,7 @@
+# OUTDATED
+
+Due to heavy changes in the web client and protocol, this project does not work anymore.
+
 agarnet
 =======
 [![Join the chat at https://gitter.im/Gjum/gagar](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Gjum/gagar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
